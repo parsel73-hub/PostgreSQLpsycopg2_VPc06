@@ -1,0 +1,11 @@
+# Временные файлы Microsoft Office
+~$*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Файлы с секретами
+.env
