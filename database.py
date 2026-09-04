@@ -61,6 +61,14 @@ class Database:
         if self.conn is None or self.conn.closed:
             try:
                 self.conn = psycopg2.connect(**self.config)
+            except UnicodeDecodeError as e:
+                # psycopg2 на Windows не может декодировать сообщение об ошибке
+                # сервера (оно приходит в кодировке cp1251) — сообщаем понятно
+                raise ConnectionError(
+                    "Не удалось подключиться к базе (неверный пароль, пользователь "
+                    "или сервер недоступен — точное сообщение сервера скрыто "
+                    "ошибкой кодировки psycopg2 на Windows)"
+                ) from e
             except psycopg2.OperationalError as e:
                 raise ConnectionError(f"Не удалось подключиться к базе: {e}") from e
 
