@@ -97,7 +97,8 @@ class Database:
         try:
             with self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cur:
                 cur.execute(query, params)
-                result = cur.fetchall() if fetch else None
+                # fetchall только если запрос вообще возвращает строки (SELECT/RETURNING)
+                result = cur.fetchall() if fetch and cur.description else None
             # Фиксируем изменения, если это не SELECT
             if not query.strip().upper().startswith("SELECT"):
                 self.conn.commit()
