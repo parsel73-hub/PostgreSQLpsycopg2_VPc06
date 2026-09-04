@@ -1,5 +1,7 @@
 # Временные файлы Microsoft Office
 ~$*
+~*.tmp
+*.tmp
 
 # Python
 __pycache__/
